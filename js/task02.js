@@ -1,17 +1,10 @@
 'use strict'
 
 {
-  const getArrayRandomNumbers = (count, n, m) => {
-    const arrayRandomNumbers = [];
-    for (let i = 0; i < count; i++) {
-      if (m > n) {
-        arrayRandomNumbers.push(Math.floor(Math.random() * (m - n + 1)) + n);
-      }
-      if (m < n) {
-        arrayRandomNumbers.push(Math.floor(Math.random() * (n - m + 1)) + m);
-      }
-    }
-    return arrayRandomNumbers
-  }
-  console.log(getArrayRandomNumbers(5, -2, 1));
+
+  const getArrayRandomNumbers = (count, n, m) => [...new Array(count)]
+  .map(() => Math.floor(Math.random() * (Math.max(n, m) - Math.min(n, m) + 1) + Math.min(n, m)))
+  
+  console.log(getArrayRandomNumbers(99, -10, 10));
+
 }
