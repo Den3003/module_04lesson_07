@@ -1,28 +1,31 @@
 'use strict'
 
 {
-  const hiddenNumber = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
-  
+  const hiddenNumber = Math.floor(Math.random() * 100) + 1;
+
+  let userNumber; 
+
   do {
-    let userNumber = prompt('Введите число от 1 до 100', '');
+    userNumber = prompt('Введите число от 1 до 100', '');
 
-    if (userNumber === null) {
-      alert('Игра закончилась');
-      break;
+    switch (true) {
+      case userNumber < 1: 
+      case userNumber > 100:
+        break;
+      case Number.isNaN(+userNumber):
+        alert('Введите число!');
+        break;
+      case userNumber > hiddenNumber:
+        alert('Меньше!');
+        break;
+      case userNumber < hiddenNumber:
+        alert('Больше!');
+        break;
+      case +userNumber === hiddenNumber:
+        alert('Правильно!');
+        break;       
     }
-    if (Number.isNaN(+userNumber)) {
-      alert('Введите число');
-    }
-    if (userNumber > hiddenNumber) {
-      alert('Меньше!');
-    }
-    if (userNumber < hiddenNumber) {
-      alert('Больше!');
-    }
-    if (+userNumber === hiddenNumber) {
-      alert('Правильно!');
-      break;
-    }
-  } while (true)
+  } while (!(userNumber === null) && !(+userNumber === hiddenNumber))
 
+  alert('Игра закончилась'); 
 }
