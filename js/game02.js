@@ -4,7 +4,7 @@
 
   let userNumberOne;
   let userNumberTwo;
-  let finish = true;
+  let finishRound = true;
 
 
   do {
@@ -21,7 +21,7 @@
         alert('Введите число!');
         break;
       case +userNumberOne === +userNumberTwo:
-        alert('Вы ввели одинаковые числа, не возможно создать диапазон чисел');
+        alert(`Вы ввели одинаковые числа ${userNumberOne} и ${userNumberTwo}, не возможно создать диапазон чисел`);
         break;
       default:
 
@@ -36,7 +36,6 @@
         }
         
         let attempts = Math.round(getArrayRange(userNumberOne, userNumberTwo).length * 0.3);
-        console.log('attempts: ',typeof attempts);
         const hiddenNumber = Math.floor(Math.random() * (Math.max(userNumberOne, userNumberTwo) - Math.min(userNumberOne, userNumberTwo) + 1))
         + Math.min(userNumberOne, userNumberTwo);
         console.log('hiddenNumber: ', hiddenNumber);
@@ -50,7 +49,7 @@
           switch (true) {
             case userPredictNumber === null:
               alert('Игра закончилась');
-              finish = false;
+              finishRound = false;
               break;
             case Number.isNaN(+userPredictNumber) || userPredictNumber === '':
               alert('Введите число!');
@@ -60,23 +59,19 @@
               break;
             case userPredictNumber > hiddenNumber && !(arrayPredictNumber.includes(+userPredictNumber)):
               arrayPredictNumber.push(+userPredictNumber);
-              console.log('arrayPredictNumber: ', arrayPredictNumber);
               attempts -= 1
-              console.log('attempts: ', attempts);
-              attempts === 0 ? (alert('У вас закончились попытки, вы проиграли'), finish = false) : alert(`Загаданное число меньше ${userPredictNumber}! 
+              attempts === 0 ? (alert('У вас закончились попытки, вы проиграли'), finishRound = false) : alert(`Загаданное число меньше ${userPredictNumber}! 
               У вас осталось ${attempts} попыток`);
               break;
             case userPredictNumber < hiddenNumber && !(arrayPredictNumber.includes(+userPredictNumber)):
               arrayPredictNumber.push(+userPredictNumber);
-              console.log('arrayPredictNumber: ', arrayPredictNumber);
               attempts -= 1
-              console.log('attempts: ', attempts);
-              attempts === 0 ? (alert('У вас закончились попытки, вы проиграли'), finish = false) : alert(`Загаданное число больше ${userPredictNumber}! 
+              attempts === 0 ? (alert('У вас закончились попытки, вы проиграли'), finishRound = false) : alert(`Загаданное число больше ${userPredictNumber}! 
               У вас осталось ${attempts} попыток`);
               break;
             case +userPredictNumber === hiddenNumber:
               alert(`Вы угадали это число ${hiddenNumber}`);
-              finish = false;
+              finishRound = false;
               break;     
           }
         } while (!(userPredictNumber === null) && !(+userPredictNumber === hiddenNumber) && !(attempts === 0))
@@ -84,6 +79,6 @@
       break;
     }
 
-  } while (!(userNumberOne === null) && !(userNumberTwo === null) && finish)
+  } while (!(userNumberOne === null) && !(userNumberTwo === null) && finishRound)
 
 }
