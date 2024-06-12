@@ -1,84 +1,89 @@
 'use strict'
 
-{
+let userNumberOne;
+let userNumberTwo;
+let continueLoop = true;
+let continueLoopQuestionnaire = false;
 
-  let userNumberOne;
-  let userNumberTwo;
-  let finishRound = true;
+while (continueLoop) {
+  if (userNumberOne === undefined || Number.isNaN(+userNumberOne) || userNumberOne.trim() === '') {
+  userNumberOne = prompt('Введите первое число', '');
 
-
-  do {
-    userNumberOne = prompt('Введите первое число', '');
-    userNumberTwo = prompt('Введите второе число', '');
-    
-    switch (true) {
-      case userNumberOne === null:
-      case userNumberTwo === null:
-        alert('Вы передумали играть, игра закончилась');
-        break;
-      case Number.isNaN(+userNumberOne) || userNumberOne === '':
-      case Number.isNaN(+userNumberTwo) || userNumberTwo === '':
-        alert('Введите число!');
-        break;
-      case +userNumberOne === +userNumberTwo:
-        alert(`Вы ввели одинаковые числа ${userNumberOne} и ${userNumberTwo}, не возможно создать диапазон чисел`);
-        break;
-      default:
-
-        const getArrayRange = (n, m) => {
-          let min = Math.min(n, m);
-          let max = Math.max(n, m);
-          const arrayRange = [];
-          for (min; min < max; min++) {
-            arrayRange.push(Math.floor(Math.random() * (max - min + 1)) + min);
-          }
-          return arrayRange;  
-        }
-        
-        let attempts = Math.round(getArrayRange(userNumberOne, userNumberTwo).length * 0.3);
-        const hiddenNumber = Math.floor(Math.random() * (Math.max(userNumberOne, userNumberTwo) - Math.min(userNumberOne, userNumberTwo) + 1))
-        + Math.min(userNumberOne, userNumberTwo);
-        console.log('hiddenNumber: ', hiddenNumber);
-
-        const arrayPredictNumber = []; 
-        let userPredictNumber;
-  
-        do {
-          userPredictNumber = prompt(`Введите число от ${userNumberOne} до ${userNumberTwo}, у вас ${attempts} попытки`, '');
-
-          switch (true) {
-            case userPredictNumber === null:
-              alert('Игра закончилась');
-              finishRound = false;
-              break;
-            case Number.isNaN(+userPredictNumber) || userPredictNumber === '':
-              alert('Введите число!');
-              break;
-            case arrayPredictNumber.includes(+userPredictNumber):
-              alert('Это число вы уже вводили');
-              break;
-            case userPredictNumber > hiddenNumber && !(arrayPredictNumber.includes(+userPredictNumber)):
-              arrayPredictNumber.push(+userPredictNumber);
-              attempts -= 1
-              attempts === 0 ? (alert('У вас закончились попытки, вы проиграли'), finishRound = false) : alert(`Загаданное число меньше ${userPredictNumber}! 
-              У вас осталось ${attempts} попыток`);
-              break;
-            case userPredictNumber < hiddenNumber && !(arrayPredictNumber.includes(+userPredictNumber)):
-              arrayPredictNumber.push(+userPredictNumber);
-              attempts -= 1
-              attempts === 0 ? (alert('У вас закончились попытки, вы проиграли'), finishRound = false) : alert(`Загаданное число больше ${userPredictNumber}! 
-              У вас осталось ${attempts} попыток`);
-              break;
-            case +userPredictNumber === hiddenNumber:
-              alert(`Вы угадали это число ${hiddenNumber}`);
-              finishRound = false;
-              break;     
-          }
-        } while (!(userPredictNumber === null) && !(+userPredictNumber === hiddenNumber) && !(attempts === 0))
-
-      break;
-    }
-
-  } while (!(userNumberOne === null) && !(userNumberTwo === null) && finishRound)
-
+  if (userNumberOne === null) {
+      alert("Отменено. Игра остановлена.");
+      continueLoop = false;
+      continue;  
+  }
+  if (Number.isNaN(+userNumberOne) || userNumberOne.trim() === '') {
+    alert('Введите число!');
+    continue;
+  }
 }
+  userNumberTwo = prompt('Введите второе число', '');
+    
+  if (userNumberTwo === null) {
+      alert("Отменено. Игра остановлена.");
+      continueLoop = false;
+      continue;
+  }
+  if (Number.isNaN(+userNumberTwo) || userNumberTwo.trim() === '') {
+    alert('Введите число!');
+    continue;
+  }
+
+  continueLoop = false;
+  continueLoopQuestionnaire = true;
+}
+
+const userAttempts = Math.round((Math.max(userNumberOne, userNumberTwo) - Math.min(userNumberOne, userNumberTwo)) * 0.3);
+const hiddenNumber = Math.floor(Math.random() * (Math.max(userNumberOne, userNumberTwo) - Math.min(userNumberOne, userNumberTwo) + 1))
++ Math.min(userNumberOne, userNumberTwo);
+const arrayPredictNumber = []; 
+let userPredictNumber;
+
+while (continueLoopQuestionnaire && !(userPredictNumber === null) && !(arrayPredictNumber.length === userAttempts) && !(+userPredictNumber === hiddenNumber)) {
+  userPredictNumber = prompt(`Введите число от ${Math.min(userNumberOne, userNumberTwo)} до ${Math.max(userNumberOne, userNumberTwo)}, у вас ${userAttempts} попытки`, '');
+
+  switch (true) {
+    case userPredictNumber === null:
+      alert('Игра закончилась');
+      continueLoopQuestionnaire = false;
+      break;
+
+    case Number.isNaN(+userPredictNumber):
+    case userPredictNumber.trim() === '':
+      alert('Введите число!');
+      break;
+
+    case arrayPredictNumber.includes(+userPredictNumber):
+      alert('Это число вы уже вводили');
+      break;
+
+    case userPredictNumber > Math.max(userNumberOne, userNumberTwo):
+    case userPredictNumber < Math.min(userNumberOne, userNumberTwo):
+      alert(`Число ${userPredictNumber} не входит в диапазон чисел от ${Math.min(userNumberOne, userNumberTwo)}
+        до ${Math.max(userNumberOne, userNumberTwo)}`);
+      break;
+
+    case userPredictNumber > hiddenNumber && !(arrayPredictNumber.includes(+userPredictNumber)):
+      arrayPredictNumber.push(+userPredictNumber);
+      alert(`Загаданное число меньше ${userPredictNumber}!`);
+      if (arrayPredictNumber.length === userAttempts) {
+        alert('Попытки закончились');
+      }
+      break;
+
+    case userPredictNumber < hiddenNumber && !(arrayPredictNumber.includes(+userPredictNumber)):
+      arrayPredictNumber.push(+userPredictNumber);
+      alert(`Загаданное число больше ${userPredictNumber}!`);
+      if (arrayPredictNumber.length === userAttempts) {
+        alert('Попытки закончились');
+      }
+      break;
+      
+    default:
+      alert(`Вы угадали это число ${hiddenNumber}`);
+      break;   
+  }
+}
+
