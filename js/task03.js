@@ -13,7 +13,7 @@ function getRandomNumber(n, m, type) {
 }
 
 function getRandomNumberArray(count, n, m, type) {
-  return Array.from({ length: count }, () => getRandomNumber(n, m, type));
+  return [...new Array(count)].map(() => getRandomNumber(n, m, type));
 }
 
 console.log(getRandomNumberArray(99, -10, 10)); 
