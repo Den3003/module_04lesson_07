@@ -13,20 +13,19 @@
       case userNumber === null:
         alert('Игра закончилась'); 
         break;
+      case Number.isNaN(+userNumber):
+      case userNumber.trim() === '':
       case userNumber < 1: 
       case userNumber > 100:
-        alert('Вы ввели число не попадающее в диапазон чисел от 1 до 100')
-        break;
-      case Number.isNaN(+userNumber):
         alert('Введите число!');
-        break;
+        break;      
       case userNumber > hiddenNumber:
         alert(`Загаданное число меньше чем число ${userNumber} !`);
         break;
       case userNumber < hiddenNumber:
         alert(`Загаданное число больше чем число ${userNumber} !`);
         break;
-      case +userNumber === hiddenNumber:
+      default:
         alert(`Правильно это число ${userNumber} !`);
         break;       
     }
